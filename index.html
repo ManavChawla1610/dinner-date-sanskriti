@@ -183,7 +183,7 @@
     /* Mobile Character Scene */
     .scene-container {
       position: relative;
-      width: 200px;
+      width: 180px;
       height: 90px;
       margin-top: 10px;
     }
@@ -204,9 +204,9 @@
     }
     .hero-girl {
       position: absolute;
-      right: 20px;
+      right: 15px;
       bottom: 0;
-      width: 70px;
+      width: 75px;
       height: 85px;
     }
   </style>
@@ -443,8 +443,8 @@
           scroll2.classList.add('open');
 
           setTimeout(() => {
-            // Perfect distance: stops directly next to her
-            guy.style.left = '22px';
+            // Stops cleanly next to her without overlapping
+            guy.style.left = '5px';
           }, 400);
         }, 1200);
       }, 400);
