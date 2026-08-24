@@ -180,7 +180,7 @@
       white-space: nowrap;
     }
 
-    /* Mobile Character Scene */
+    /* Adjusted Mobile Character Scene */
     .scene-container {
       position: relative;
       width: 100%;
@@ -190,11 +190,14 @@
     .pixel-art-group {
       position: absolute;
       bottom: 0;
-      width: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
       height: 100%;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: flex-end;
+      gap: 40px; /* Specific small gap between the characters */
     }
     
     .hero-guy {
@@ -206,9 +209,7 @@
       transition: left 2.5s linear;
     }
     .hero-girl {
-      position: absolute;
-      right: 0;
-      bottom: 0;
+      position: static; /* Remove absolute positioning */
       width: 70px;
       height: 85px;
     }
@@ -237,15 +238,16 @@
       <div class="scroll-roller"></div>
       <div class="scroll-body">
         <div class="scroll-title" id="question-text">
-          Hi Sanskriti, will you go out for dinner with me? 
+          HI Sanskriti, will you go out for dinner with me? 
           <svg class="inline-icon" viewBox="0 0 16 16" shape-rendering="crispEdges">
             <path fill="#d97706" d="M1 2h14v3H1z"/>
-            <path fill="#f59e0b" d="M2 5h12v2H2zM3 7h10v2H3zM4 9h8v2H4zM6 11h4v2H6zM7 13h2v2H7z"/>
+            <path fill="#f59e0b" d="M2 5h12v2H2zM3 7h10v2H3zM4 9h8v2H4zM6 11h4v2H6z" />
             <path fill="#ef4444" d="M4 6h2v2H4zM9 8h2v2H9z"/>
           </svg>
           <svg class="inline-icon" viewBox="0 0 16 16" shape-rendering="crispEdges">
             <path fill="#f59e0b" d="M2 3h4v5H2zM10 3h4v5h-4z"/>
-            <path fill="#000" d="M4 8h1v5H4zM11 8h1v5h-1zM2 13h5v1H2zM9 13h5v1H9z"/>
+            <path fill="#000" d="M4 8h1v5H4zM11 8h1v5h-1z" />
+            <path fill="#000" d="M2 13h5v1H2zM9 13h5v1H9z"/>
           </svg>
         </div>
         <div class="options-row">
@@ -273,21 +275,22 @@
         <div class="scroll-title" style="margin-bottom: 5px;">
           OMGGGG YOU SAID YES?! 
           <svg class="inline-icon" viewBox="0 0 16 16" shape-rendering="crispEdges">
-            <path fill="#f59e0b" d="M2 2h12v12H2z"/>
-            <path fill="#000" d="M4 4h3v4H4zM9 4h3v4H9zM5 10h6v2H5z"/>
-            <path fill="#fff" d="M5 4h1v2H5zM10 4h1v2h-1z"/>
+            <path fill="#f59e0b" d="M2 2h12v12H2z" />
+            <path fill="#000" d="M4 4h3v4H4zM9 4h3v4H9zM5 10h6v2H5z" />
+            <path fill="#fff" d="M5 4h1v2H5zM10 4h1v2h-1z" />
           </svg>
           <br><br>
           <span style="font-size: 10px; line-height: 1.6;">
             I CAN'T WAIT! SEE YOU SOON! 
             <svg class="inline-icon" viewBox="0 0 16 16" shape-rendering="crispEdges">
               <path fill="#d97706" d="M1 2h14v3H1z"/>
-              <path fill="#f59e0b" d="M2 5h12v2H2zM3 7h10v2H3zM4 9h8v2H4zM6 11h4v2H6zM7 13h2v2H7z"/>
+              <path fill="#f59e0b" d="M2 5h12v2H2zM3 7h10v2H3zM4 9h8v2H4zM6 11h4v2H6z" />
               <path fill="#ef4444" d="M4 6h2v2H4zM9 8h2v2H9z"/>
             </svg>
             <svg class="inline-icon" viewBox="0 0 16 16" shape-rendering="crispEdges">
               <path fill="#f59e0b" d="M2 3h4v5H2zM10 3h4v5h-4z"/>
-              <path fill="#000" d="M4 8h1v5H4zM11 8h1v5h-1zM2 13h5v1H2zM9 13h5v1H9z"/>
+              <path fill="#000" d="M4 8h1v5H4zM11 8h1v5h-1z" />
+              <path fill="#000" d="M2 13h5v1H2zM9 13h5v1H9z"/>
             </svg>
           </span>
         </div>
@@ -296,37 +299,37 @@
         <div class="scene-container">
           <div class="pixel-art-group">
             <svg class="hero-guy" id="guy" viewBox="0 0 26 24" shape-rendering="crispEdges">
-              <path fill="#6d4c41" d="M5 2h10v4H5zM4 4h12v2H4z"/>
-              <path fill="#ffcc80" d="M5 6h10v6H5z"/>
-              <path fill="#3e2723" d="M12 7h2v2h-2zM6 7h2v2H6z"/>
-              <path fill="#d84315" d="M7 10h1v1H7zM8 11h4v1H8zM12 10h1v1h-1z"/>
-              <path fill="#43a047" d="M4 12h12v7H4z"/>
-              <path fill="#2e7d32" d="M4 12h2v7H4zM14 12h2v7h-2z"/>
-              <path fill="#fff" d="M2 13h2v5H2zM16 13h2v3h-2z"/>
-              <path fill="#fbc02d" d="M9 16h2v2H9z"/>
-              <path fill="#212121" d="M4 16h12v1H4z"/>
+              <path fill="#6d4c41" d="M5 2h10v4H5zM4 4h12v2H4z" />
+              <path fill="#ffcc80" d="M5 6h10v6H5z" />
+              <path fill="#3e2723" d="M12 7h2v2h-2zM6 7h2v2H6z" />
+              <path fill="#d84315" d="M7 10h1v1H7zM8 11h4v1H8zM12 10h1v1h-1z" />
+              <path fill="#43a047" d="M4 12h12v7H4z" />
+              <path fill="#2e7d32" d="M4 12h2v7H4zM14 12h2v7h-2z" />
+              <path fill="#fff" d="M2 13h2v5H2zM16 13h2v3h-2z" />
+              <path fill="#fbc02d" d="M9 16h2v2H9z" />
+              <path fill="#212121" d="M4 16h12v1H4z" />
               
-              <path fill="#b71c1c" d="M19 8h5v5h-5z"/>
-              <path fill="#ef5350" d="M20 7h3v1h-3zM19 9h5v2h-5zM21 11h1v1h-1z"/>
-              <path fill="#ff8a80" d="M21 9h2v1h-2z"/>
-              <path fill="#2e7d32" d="M17 14h2v5h-2z"/>
-              <path fill="#43a047" d="M16 16h2v1h-2zM19 15h2v1h-2z"/>
+              <path fill="#b71c1c" d="M19 8h5v5h-5z" />
+              <path fill="#ef5350" d="M20 7h3v1h-3zM19 9h5v2h-5zM21 11h1v1h-1z" />
+              <path fill="#ff8a80" d="M21 9h2v1h-2z" />
+              <path fill="#2e7d32" d="M17 14h2v5h-2z" />
+              <path fill="#43a047" d="M16 16h2v1h-2zM19 15h2v1h-2z" />
               
-              <path fill="#4e342e" d="M5 19h4v4H5zM11 19h4v4h-4z"/>
+              <path fill="#4e342e" d="M5 19h4v4H5zM11 19h4v4h-4z" />
             </svg>
 
             <svg class="hero-girl" viewBox="0 0 22 25" shape-rendering="crispEdges">
-              <path fill="#ffee58" d="M3 2h16v12H3z"/>
-              <path fill="#fbc02d" d="M2 4h18v10H2z"/>
-              <path fill="#ffcc80" d="M5 6h12v6H5z"/>
-              <path fill="#3e2723" d="M7 8h3v1H7zM12 8h3v1h-3z"/>
-              <path fill="#d84315" d="M8 10h1v1H8zM9 11h4v1H9zM13 10h1v1h-1z"/>
-              <path fill="#1e88e5" d="M3 12h16v9H3z"/>
-              <path fill="#1565c0" d="M2 13h4v4H2zM16 13h4v4h-4z"/>
-              <path fill="#bbdefb" d="M7 12h8v2H7zM3 20h16v1H3z"/>
-              <path fill="#ffcc80" d="M9 15h4v3H9z"/>
-              <path fill="#ffcc80" d="M6 21h3v2H6zM13 21h3v2h-3z"/>
-              <path fill="#4e342e" d="M5 23h5v2H5zM12 23h5v2h-5z"/>
+              <path fill="#ffee58" d="M3 2h16v12H3z" />
+              <path fill="#fbc02d" d="M2 4h18v10H2z" />
+              <path fill="#ffcc80" d="M5 6h12v6H5z" />
+              <path fill="#3e2723" d="M7 8h3v1H7zM12 8h3v1h-3z" />
+              <path fill="#d84315" d="M8 10h1v1H8zM9 11h4v1H9zM13 10h1v1h-1z" />
+              <path fill="#1e88e5" d="M3 12h16v9H3z" />
+              <path fill="#1565c0" d="M2 13h4v4H2zM16 13h4v4h-4z" />
+              <path fill="#bbdefb" d="M7 12h8v2H7zM3 20h16v1H3z" />
+              <path fill="#ffcc80" d="M9 15h4v3H9z" />
+              <path fill="#ffcc80" d="M6 21h3v2H6zM13 21h3v2h-3z" />
+              <path fill="#4e342e" d="M5 23h5v2H5zM12 23h5v2h-5z" />
             </svg>
           </div>
         </div>
@@ -446,7 +449,7 @@
           scroll2.classList.add('open');
 
           setTimeout(() => {
-            guy.style.left = '50px';
+            guy.style.left = '20px'; // New stopping position much closer
           }, 400);
         }, 1200);
       }, 400);
