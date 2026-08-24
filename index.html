@@ -183,7 +183,7 @@
     /* Mobile Character Scene */
     .scene-container {
       position: relative;
-      width: 220px;
+      width: 200px;
       height: 90px;
       margin-top: 10px;
     }
@@ -204,7 +204,7 @@
     }
     .hero-girl {
       position: absolute;
-      right: 25px; /* Moved close to the center */
+      right: 20px;
       bottom: 0;
       width: 70px;
       height: 85px;
@@ -291,7 +291,7 @@
           </span>
         </div>
         
-        <!-- Character Scene with Close Positioning -->
+        <!-- Character Scene -->
         <div class="scene-container">
           <div class="pixel-art-group">
             <svg class="hero-guy" id="guy" viewBox="0 0 26 24" shape-rendering="crispEdges">
@@ -443,8 +443,8 @@
           scroll2.classList.add('open');
 
           setTimeout(() => {
-            // Moves the guy right next to the girl
-            guy.style.left = '75px';
+            // Perfect distance: stops directly next to her
+            guy.style.left = '22px';
           }, 400);
         }, 1200);
       }, 400);
