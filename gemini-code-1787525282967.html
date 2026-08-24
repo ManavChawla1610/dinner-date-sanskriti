@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Pixel Quest</title>
+  <!-- NES-style Pixel Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Press Start 2P', monospace;
+      background-color: #5c94fc; /* Retro sky blue */
+    }
+
+    /* Screen 1: Start Button Screen */
+    #start-screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      z-index: 100;
+      color: #fff;
+    }
+
+    .retro-btn {
+      padding: 18px 28px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 16px;
+      color: #fff;
+      background-color: #e72521;
+      border: 4px solid #fff;
+      box-shadow: 6px 6px 0px #000;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: transform 0.1s;
+    }
+    .retro-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 3px 3px 0px #000;
+    }
+
+    /* World Canvas Container */
+    #world {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(to bottom, #6b8cff 0%, #a0b5ff 70%, #5c94fc 100%);
+    }
+
+    /* Pixel Ground */
+    .ground {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 60px;
+      background: #c84c0c;
+      border-top: 8px solid #00a800;
+      box-shadow: inset 0 8px 0 #fc9838;
+    }
+
+    /* Pixel Pigeon Sprite */
+    #pigeon {
+      position: absolute;
+      top: 20%;
+      left: -100px;
+      width: 64px;
+      height: 64px;
+      display: none;
+      z-index: 10;
+      pointer-events: none;
+      filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.2));
+    }
+
+    /* Flying Animation Paths */
+    @keyframes flyAround {
+      0% { left: -100px; top: 20%; transform: scaleX(1); }
+      30% { left: 70vw; top: 15%; transform: scaleX(1); }
+      35% { left: 70vw; top: 15%; transform: scaleX(-1); }
+      65% { left: 15vw; top: 40%; transform: scaleX(-1); }
+      70% { left: 15vw; top: 40%; transform: scaleX(1); }
+      100% { left: calc(50vw - 32px); top: 25%; transform: scaleX(1); }
+    }
+
+    .flying {
+      animation: flyAround 4.5s linear forwards;
+    }
+
+    /* Scroll Modal Base */
+    .scroll-modal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 340px;
+      background-color: #fce8b1;
+      border: 8px solid #8b4513;
+      box-shadow: 8px 8px 0px #000;
+      padding: 24px;
+      text-align: center;
+      z-index: 20;
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .scroll-modal.open {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .scroll-title {
+      font-size: 14px;
+      color: #8b4513;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    /* Checkbox & Option Layout */
+    .options-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 20px;
+      min-height: 60px;
+      position: relative;
+    }
+
+    .option-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #000;
+      cursor: pointer;
+    }
+
+    .pixel-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 3px solid #000;
+      background: #fff;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    #no-container {
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    /* Second Scroll: Celebration */
+    #celebration-scroll {
+      background-color: #fff0f5;
+      border-color: #ff69b4;
+    }
+
+    .emoji-party {
+      font-size: 24px;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 1: Start Screen -->
+  <div id="start-screen">
+    <button class="retro-btn" id="start-btn">▶ PRESS START</button>
+  </div>
+
+  <!-- Main Animated Stage -->
+  <div id="world">
+    <!-- Pixel Pigeon SVG -->
+    <svg id="pigeon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+      <!-- Body/Wing -->
+      <path fill="#a3a3a3" d="M4 6h4v2H4zM2 8h8v2H2zM4 10h6v2H4z" />
+      <path fill="#737373" d="M6 8h4v2H6z" />
+      <!-- Head -->
+      <path fill="#d4d4d4" d="M8 4h4v2H8z" />
+      <!-- Beak -->
+      <path fill="#f59e0b" d="M12 5h2v1h-2z" />
+      <!-- Eye -->
+      <path fill="#000" d="M10 4h1v1h-1z" />
+      <!-- Letter Envelope in Beak -->
+      <path fill="#ffffff" d="M11 7h4v3h-4z" />
+      <path fill="#ef4444" d="M12 8h2v1h-2z" />
+    </svg>
+
+    <!-- First Scroll (Question) -->
+    <div id="question-scroll" class="scroll-modal">
+      <div class="scroll-title">📜 SPECIAL DELIVERY! 📜<br><br>Would you like to go out for dinner with me?</div>
+      
+      <div class="options-container">
+        <div class="option-box" id="yes-btn">
+          <div class="pixel-checkbox" id="yes-check"></div>
+          <span>YES</span>
+        </div>
+
+        <div id="no-container">
+          <div class="option-box" id="no-btn">
+            <div class="pixel-checkbox"></div>
+            <span>NO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second Scroll (Response) -->
+    <div id="celebration-scroll" class="scroll-modal">
+      <div class="scroll-title" style="color: #c71585;">
+        OH MY GOD! 🎉<br><br>YOU SAID YES?! 
+      </div>
+      <p style="font-size: 10px; line-height: 1.5; color: #333;">
+        Best news ever! Pick a date & get ready for delicious food! 🍕🍝
+      </p>
+      <div class="emoji-party">
+        🥳 💖 🥳<br>✨ 🍕 🥂
+      </div>
+    </div>
+
+    <div class="ground"></div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('start-btn');
+    const startScreen = document.getElementById('start-screen');
+    const pigeon = document.getElementById('pigeon');
+    const questionScroll = document.getElementById('question-scroll');
+    const celebrationScroll = document.getElementById('celebration-scroll');
+    const yesBtn = document.getElementById('yes-btn');
+    const yesCheck = document.getElementById('yes-check');
+    const noContainer = document.getElementById('no-container');
+
+    let noScale = 1;
+    let shrinkCount = 0;
+
+    // Start Sequence
+    startBtn.addEventListener('click', () => {
+      startScreen.style.display = 'none';
+      pigeon.style.display = 'block';
+      pigeon.classList.add('flying');
+
+      // Open scroll when pigeon finishes flight path
+      setTimeout(() => {
+        questionScroll.classList.add('open');
+      }, 4500);
+    });
+
+    // Runaway & Shrinking "NO" Checkbox logic
+    function dodgeNo() {
+      shrinkCount++;
+      noScale = Math.max(0.15, noScale - 0.18); // Shrinks progressively smaller
+      
+      // Random dodge offset
+      const xOffset = (Math.random() - 0.5) * 160;
+      const yOffset = (Math.random() - 0.5) * 100;
+
+      noContainer.style.transform = `translate(${xOffset}px, ${yOffset}px) scale(${noScale})`;
+    }
+
+    noContainer.addEventListener('mouseover', dodgeNo);
+    noContainer.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      dodgeNo();
+    });
+
+    // "YES" Click Sequence
+    yesBtn.addEventListener('click', () => {
+      yesCheck.style.backgroundColor = '#22c55e'; // Green check mark fill
+      yesCheck.innerHTML = '<span style="color:#fff;font-size:12px;line-height:14px;">✓</span>';
+
+      setTimeout(() => {
+        questionScroll.classList.remove('open');
+        setTimeout(() => {
+          celebrationScroll.classList.add('open');
+        }, 400);
+      }, 500);
+    });
+  </script>
+</body>
+</html>
