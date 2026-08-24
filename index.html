@@ -180,7 +180,7 @@
       white-space: nowrap;
     }
 
-    /* Flex Scene with Exact Image Distance */
+    /* Perfectly Aligned Character Scene */
     .scene-container {
       position: relative;
       width: 100%;
@@ -194,7 +194,7 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: 22px; /* Increased gap to match exact screenshot spacing */
+      gap: 22px;
     }
     
     .hero-guy {
@@ -202,6 +202,7 @@
       height: 85px;
       transform: translateX(-100px);
       transition: transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
+      display: block;
     }
     .hero-guy.walked {
       transform: translateX(0);
@@ -209,6 +210,7 @@
     .hero-girl {
       width: 75px;
       height: 85px;
+      display: block;
     }
   </style>
 </head>
@@ -295,7 +297,7 @@
         <!-- Character Scene -->
         <div class="scene-container">
           <div class="pixel-art-group">
-            <svg class="hero-guy" id="guy" viewBox="0 0 26 24" shape-rendering="crispEdges">
+            <svg class="hero-guy" id="guy" viewBox="0 0 26 25" shape-rendering="crispEdges">
               <path fill="#6d4c41" d="M5 2h10v4H5zM4 4h12v2H4z"/>
               <path fill="#ffcc80" d="M5 6h10v6H5z"/>
               <path fill="#3e2723" d="M12 7h2v2h-2zM6 7h2v2H6z"/>
@@ -306,13 +308,15 @@
               <path fill="#fbc02d" d="M9 16h2v2H9z"/>
               <path fill="#212121" d="M4 16h12v1H4z"/>
               
+              <!-- Rose -->
               <path fill="#b71c1c" d="M19 8h5v5h-5z"/>
               <path fill="#ef5350" d="M20 7h3v1h-3zM19 9h5v2h-5zM21 11h1v1h-1z"/>
               <path fill="#ff8a80" d="M21 9h2v1h-2z"/>
               <path fill="#2e7d32" d="M17 14h2v5h-2z"/>
               <path fill="#43a047" d="M16 16h2v1h-2zM19 15h2v1h-2z"/>
               
-              <path fill="#4e342e" d="M5 19h4v4H5zM11 19h4v4h-4z"/>
+              <!-- Green Shoes -->
+              <path fill="#2e7d32" d="M5 21h4v4H5zM11 21h4v4h-4z"/>
             </svg>
 
             <svg class="hero-girl" viewBox="0 0 22 25" shape-rendering="crispEdges">
