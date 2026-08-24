@@ -180,7 +180,7 @@
       white-space: nowrap;
     }
 
-    /* Flex-based Character Scene for Perfect Gap */
+    /* Flex Scene with Exact Image Distance */
     .scene-container {
       position: relative;
       width: 100%;
@@ -194,23 +194,21 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: 14px; /* Clear space between the rose and girl */
+      gap: 22px; /* Increased gap to match exact screenshot spacing */
     }
     
     .hero-guy {
       width: 75px;
       height: 85px;
-      transform: translateX(-100px); /* Starts off-screen to the left inside scroll */
+      transform: translateX(-100px);
       transition: transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
     }
     .hero-guy.walked {
-      transform: translateX(0); /* Walks straight up to the 12px gap margin */
+      transform: translateX(0);
     }
     .hero-girl {
-      width: 62px;
-      height: 71px;
-      position: relative;
-      z-index: 1;
+      width: 75px;
+      height: 85px;
     }
   </style>
 </head>
@@ -446,7 +444,6 @@
           scroll2.classList.add('open');
 
           setTimeout(() => {
-            // Smooth walking transition to flex box boundary
             guy.classList.add('walked');
           }, 400);
         }, 1200);
