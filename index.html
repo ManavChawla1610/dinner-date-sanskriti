@@ -81,7 +81,7 @@
       animation: flyAround 3.8s linear forwards;
     }
 
-    /* Mobile-Responsive Scroll Assembly */
+    /* Scroll Assembly */
     .scroll-container {
       position: absolute;
       top: 50%;
@@ -125,7 +125,7 @@
       padding: 20px 16px;
     }
 
-    /* Adjusted Mobile Typography */
+    /* Typography */
     .scroll-title {
       font-size: 11px;
       color: #5c2c06;
@@ -145,9 +145,10 @@
     /* Options & Checkboxes */
     .options-row {
       display: flex;
-      gap: 30px;
+      justify-content: center;
       align-items: center;
       margin-top: 10px;
+      width: 100%;
     }
     .checkbox-btn {
       display: flex;
@@ -156,6 +157,8 @@
       cursor: pointer;
       font-size: 12px;
       color: #000;
+      padding: 6px 10px;
+      border-radius: 6px;
     }
     .pixel-box {
       width: 24px;
@@ -174,6 +177,7 @@
       position: absolute;
       transition: all 0.22s ease;
       z-index: 500;
+      white-space: nowrap;
     }
 
     /* Mobile Character Scene */
@@ -232,7 +236,7 @@
     <div class="scroll-container" id="scroll-1">
       <div class="scroll-roller"></div>
       <div class="scroll-body">
-        <div class="scroll-title">
+        <div class="scroll-title" id="question-text">
           HI Sanskriti, will you go out for dinner with me? 
           <svg class="inline-icon" viewBox="0 0 16 16" shape-rendering="crispEdges">
             <path fill="#d97706" d="M1 2h14v3H1z"/>
@@ -249,7 +253,6 @@
             <div class="pixel-box" id="yes-box"></div>
             <span>YES</span>
           </div>
-          <div style="width: 50px;"></div>
         </div>
       </div>
       <div class="scroll-roller"></div>
@@ -303,11 +306,9 @@
               <path fill="#fbc02d" d="M9 16h2v2H9z"/>
               <path fill="#212121" d="M4 16h12v1H4z"/>
               
-              <!-- Rose Bloom -->
               <path fill="#b71c1c" d="M19 8h5v5h-5z"/>
               <path fill="#ef5350" d="M20 7h3v1h-3zM19 9h5v2h-5zM21 11h1v1h-1z"/>
               <path fill="#ff8a80" d="M21 9h2v1h-2z"/>
-              <!-- Stem -->
               <path fill="#2e7d32" d="M17 14h2v5h-2z"/>
               <path fill="#43a047" d="M16 16h2v1h-2zM19 15h2v1h-2z"/>
               
@@ -347,6 +348,7 @@
     const noWrapper = document.getElementById('no-wrapper');
     const noText = document.getElementById('no-text');
     const guy = document.getElementById('guy');
+    const questionText = document.getElementById('question-text');
 
     const noPrompts = [
       "Really sure?",
@@ -367,25 +369,60 @@
         scroll1.style.visibility = 'visible';
         scroll1.classList.add('open');
         
-        const rect = yesBtn.getBoundingClientRect();
-        noWrapper.style.top = rect.top + 'px';
-        noWrapper.style.left = (rect.right + 20) + 'px';
+        // Initial placement directly beside YES button
+        const yesRect = yesBtn.getBoundingClientRect();
+        noWrapper.style.top = yesRect.top + 'px';
+        noWrapper.style.left = (yesRect.right + 25) + 'px';
         noWrapper.style.display = 'block';
       }, 3800);
     });
 
+    function checkOverlap(rect1, rect2, padding = 10) {
+      return !(
+        rect1.right + padding < rect2.left ||
+        rect1.left - padding > rect2.right ||
+        rect1.bottom + padding < rect2.top ||
+        rect1.top - padding > rect2.bottom
+      );
+    }
+
     function dodgeNo() {
-      const maxX = window.innerWidth - 160;
-      const maxY = window.innerHeight - 60;
+      // First update the text so we know its new width
+      noText.textContent = noPrompts[promptIndex];
+      promptIndex = (promptIndex + 1) % noPrompts.length;
+
+      const titleRect = questionText.getBoundingClientRect();
+      const yesRect = yesBtn.getBoundingClientRect();
       
-      const randomX = Math.max(10, Math.floor(Math.random() * maxX));
-      const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+      const wrapWidth = noWrapper.offsetWidth || 120;
+      const wrapHeight = noWrapper.offsetHeight || 40;
+
+      let randomX, randomY;
+      let safe = false;
+      let attempts = 0;
+
+      while (!safe && attempts < 150) {
+        attempts++;
+        randomX = Math.floor(Math.random() * (window.innerWidth - wrapWidth - 20)) + 10;
+        randomY = Math.floor(Math.random() * (window.innerHeight - wrapHeight - 60)) + 10;
+
+        const candidateRect = {
+          left: randomX,
+          top: randomY,
+          right: randomX + wrapWidth,
+          bottom: randomY + wrapHeight
+        };
+
+        const overlapsTitle = checkOverlap(candidateRect, titleRect, 12);
+        const overlapsYes = checkOverlap(candidateRect, yesRect, 15);
+
+        if (!overlapsTitle && !overlapsYes) {
+          safe = true;
+        }
+      }
 
       noWrapper.style.top = randomY + 'px';
       noWrapper.style.left = randomX + 'px';
-
-      noText.textContent = noPrompts[promptIndex];
-      promptIndex = (promptIndex + 1) % noPrompts.length;
     }
 
     noWrapper.addEventListener('mouseover', dodgeNo);
