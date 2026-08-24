@@ -180,32 +180,33 @@
       white-space: nowrap;
     }
 
-    /* Mobile Character Scene */
+    /* Flex-based Character Scene for Perfect Gap */
     .scene-container {
       position: relative;
-      width: 180px;
+      width: 100%;
       height: 90px;
       margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
     }
     .pixel-art-group {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 12px; /* Perfect physical space between Rose & Girl */
     }
     
     .hero-guy {
-      position: absolute;
-      left: 0px;
-      bottom: 0;
       width: 75px;
       height: 85px;
-      transition: left 2.5s cubic-bezier(0.25, 1, 0.5, 1);
+      transform: translateX(-100px); /* Starts off-screen to the left inside scroll */
+      transition: transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .hero-guy.walked {
+      transform: translateX(0); /* Walks straight up to the 12px gap margin */
     }
     .hero-girl {
-      position: absolute;
-      right: 15px;
-      bottom: 0;
       width: 75px;
       height: 85px;
     }
@@ -443,8 +444,8 @@
           scroll2.classList.add('open');
 
           setTimeout(() => {
-            // Stops cleanly next to her without overlapping
-            guy.style.left = '5px';
+            // Smooth walking transition to flex box boundary
+            guy.classList.add('walked');
           }, 400);
         }, 1200);
       }, 400);
